@@ -1,0 +1,68 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="resources\correct.wav" />
+    <None Remove="resources\key1_enter_press.wav" />
+    <None Remove="resources\key1_enter_release.wav" />
+    <None Remove="resources\key1_press.wav" />
+    <None Remove="resources\key1_release.wav" />
+    <None Remove="resources\key1_return_press.wav" />
+    <None Remove="resources\key1_return_release.wav" />
+    <None Remove="resources\key1_space_press.wav" />
+    <None Remove="resources\key1_space_release.wav" />
+    <None Remove="resources\words.txt" />
+    <None Remove="resources\wrong.wav" />
+    <None Remove="resources\wrong2.wav" />
+    <None Remove="warning_zone.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="resources\correct.wav" />
+    <EmbeddedResource Include="resources\key1_enter_press.wav" />
+    <EmbeddedResource Include="resources\key1_enter_release.wav" />
+    <EmbeddedResource Include="resources\key1_press.wav" />
+    <EmbeddedResource Include="resources\key1_release.wav" />
+    <EmbeddedResource Include="resources\key1_return_press.wav" />
+    <EmbeddedResource Include="resources\key1_return_release.wav" />
+    <EmbeddedResource Include="resources\key1_space_press.wav" />
+    <EmbeddedResource Include="resources\key1_space_release.wav" />
+    <EmbeddedResource Include="resources\words.txt" />
+    <EmbeddedResource Include="resources\wrong.wav" />
+    <EmbeddedResource Include="resources\wrong2.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NAudio" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="warning_zone.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+</Project>
