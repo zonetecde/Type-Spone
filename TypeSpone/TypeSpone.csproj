@@ -8,7 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="gif_parallele.gif" />
+    <None Remove="interrogative.png" />
     <None Remove="resources\correct.wav" />
+    <None Remove="resources\game_end_lost.wav" />
+    <None Remove="resources\game_end_win.wav" />
     <None Remove="resources\key1_enter_press.wav" />
     <None Remove="resources\key1_enter_release.wav" />
     <None Remove="resources\key1_press.wav" />
@@ -17,14 +21,23 @@
     <None Remove="resources\key1_return_release.wav" />
     <None Remove="resources\key1_space_press.wav" />
     <None Remove="resources\key1_space_release.wav" />
+    <None Remove="resources\pop_sound.wav" />
     <None Remove="resources\words.txt" />
+    <None Remove="resources\word_deadLine.wav" />
     <None Remove="resources\wrong.wav" />
     <None Remove="resources\wrong2.wav" />
     <None Remove="warning_zone.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="resources\game_end_win.wav" />
+    <EmbeddedResource Include="resources\pop_sound.wav" />
+    <EmbeddedResource Include="resources\word_deadLine.wav" />
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Include="resources\correct.wav" />
+    <EmbeddedResource Include="resources\game_end_lost.wav" />
     <EmbeddedResource Include="resources\key1_enter_press.wav" />
     <EmbeddedResource Include="resources\key1_enter_release.wav" />
     <EmbeddedResource Include="resources\key1_press.wav" />
@@ -44,10 +57,13 @@
 
   <ItemGroup>
     <PackageReference Include="NAudio" Version="2.1.0" />
+    <PackageReference Include="XamlAnimatedGif" Version="2.0.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="warning_zone.png" />
+    <Resource Include="resources\gif_parallele.gif" />
+    <Resource Include="resources\interrogative.png" />
+    <Resource Include="resources\warning_zone.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,76 +1,396 @@
 ﻿<Window x:Class="TypeSpone.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TypeSpone"
+        xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d" d:Width="800" d:Height="450"
         Title="Type Spone" MinHeight="450" MinWidth="800" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" WindowState="Maximized" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
     <Grid>
-        <Grid Background="#FF3A3939" x:Name="Grid_Options">
+        <Grid Visibility="Hidden" Background="#FF3A3939" x:Name="Grid_Options">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.2*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="0.05*"/>
-                <ColumnDefinition Width="0.1*"/>
+                <ColumnDefinition Width="0.02*"/>
                 <ColumnDefinition Width="0.05*"/>
+                <ColumnDefinition Width="0.07*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.3*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="0.15*"/>
-                <RowDefinition Height="0.15*"/>
-                <RowDefinition Height="0.15*"/>
-                <RowDefinition Height="0.15*"/>
-                <RowDefinition Height="0.15*"/>
-                <RowDefinition Height="0.35*"/>
                 <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.5*"/>
+                <RowDefinition Height="0.2*"/>
+                <RowDefinition Height="0.12*"/>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.12*"/>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.12*"/>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="0.15*"/>
+                <RowDefinition Height="0.15*"/>
             </Grid.RowDefinitions>
 
             <Viewbox Grid.Column="2" Grid.Row="3" Margin="0,0,0,0" >
 
                 <CheckBox x:Name="checkBox_pressEnterToValidate"  Background="#FFCAB5B5" BorderBrush="Black" IsChecked="False" />
             </Viewbox>
-                               
+
             <Viewbox Grid.Column="1" Grid.Row="1" Margin="0,0,0,0">
                 <TextBlock FontFamily="Consolas" Foreground="White" >
                     <Run Text="Options"/>
                 </TextBlock>
             </Viewbox>
-            
+
             <Viewbox Grid.Column="1" Grid.Row="3" Margin="0,0,0,0" HorizontalAlignment="Left">
                 <TextBlock FontFamily="Consolas" Foreground="White" >
                     <Run Text="Appuyez sur entrer pour valider un mot"/>
                 </TextBlock>
-            </Viewbox>  
-            
+            </Viewbox>
+
+            <Viewbox Grid.Column="1" Grid.Row="5" Margin="0,0,0,0" HorizontalAlignment="Left">
+                <TextBlock FontFamily="Consolas" Foreground="White" >
+                    <Run Text="Taper d'autres mots en parallèle"/>
+                </TextBlock>
+            </Viewbox>
+
+            <Viewbox Grid.Column="2" Grid.Row="5" Margin="0,0,0,0" >
+                <CheckBox x:Name="checkBox_taperMotParallele"  Background="#FFCAB5B5" BorderBrush="Black" IsChecked="False" />
+            </Viewbox>
+
+            <Viewbox Grid.Column="1" Grid.Row="7" Margin="0,0,0,0" HorizontalAlignment="Left">
+                <TextBlock FontFamily="Consolas" Foreground="White" >
+                    <Run Text="Taille des mots"/>
+                </TextBlock>
+            </Viewbox>
+
+            <Viewbox Margin="0,0,0,0"  Grid.Column="2" Grid.Row="7"  >
+                <TextBox x:Name="textBox_tailleMot"   Background="#FFCAB5B5" BorderBrush="Black" Margin="0,0,0,0" Text="50" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="16" FontFamily="Consolas" UndoLimit="5" MaxLength="2" />
+            </Viewbox>
+
+            <Image  Grid.Column="4" Grid.Row="5" Source="/resources/interrogative.png" Cursor="Hand" MouseDown="Image_MouseDown" />
+
         </Grid>
-        
-        <Grid  Background="#FF3A3939" Visibility="Hidden"  x:Name="Grid_Game" >
+
+        <Grid x:Name="Grid_MotParelleleHelp" Visibility="Hidden" Background="#CC000000" MouseDown="Grid_MotParelleleHelp_MouseDown">
+            <Image x:Name="Image_gifMotParallele" gif:AnimationBehavior.SourceUri="resources/gif_parallele.gif" MouseDown="Grid_MotParelleleHelp_MouseDown" />
+            <Label VerticalContentAlignment="Center" HorizontalContentAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,20" Content="Uniquement les mots écrits volontairement ne seront pas reset" Foreground="White" FontFamily="Consolas"/>
+        </Grid>
+
+        <Grid Background="#FF3A3939" Visibility="Hidden"  x:Name="Grid_Difficulte">
+
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="4*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+
+                <Viewbox Grid.Column="1" Grid.Row="1" Margin="0,0,0,0">
+                    <TextBlock FontFamily="Consolas" Foreground="White" >
+                    <Run Text="Difficulté"/>
+                    </TextBlock>
+                </Viewbox>
+
+                <Grid Grid.Column="1" Grid.Row="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="1*"/>
+                    </Grid.RowDefinitions>
+                    <Rectangle Grid.Row="1" Fill="#7FFFFFFF" Width="0.5" />
+                </Grid>
+            </Grid>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="2.5*"/>
+
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.55*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="0.55*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid x:Name="Grid_Difficulte_Difficulte" Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.7*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
+
+                <Grid x:Name="Grid_Difficulte_Options" Grid.Row="1" Grid.Column="3">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.4*"/>
+                        <RowDefinition Height="0.10*"/>
+
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition Height="0.10*"/>
+                        <RowDefinition Height="0.7*"/>
+                    </Grid.RowDefinitions>
+                </Grid>
+
+            </Grid>
+
+
+
+
+
+
+
+
+            <Grid x:Name="Grid_Difficulte_Retour">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="4.75*"/>
+                    <RowDefinition Height="0.3*"/>
+                    <RowDefinition Height="0.35*"/>
+                </Grid.RowDefinitions>
+            </Grid>
+
+        </Grid>
+
+        <Grid  Background="#FF3A3939" Visibility="Visible"  x:Name="Grid_Game" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="5*"/>
                 <RowDefinition Height="0.1*"/>
                 <RowDefinition Height="0.75*"/>
             </Grid.RowDefinitions>
-            <Viewbox Grid.Row="0" >
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1.5*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="0.4*"/>
+                    <RowDefinition Height="0.8*"/>
+                </Grid.RowDefinitions>
+
+                <Viewbox Grid.Column="1" Grid.Row="1">
+                    <TextBlock x:Name="textBlock_GameTimer" Text="00:00" Foreground="#19FFFFFF" FontFamily="Consolas"/>
+                </Viewbox>
+                <Viewbox Grid.Column="1" Grid.Row="2">
+                    <TextBlock x:Name="txtBlock_wrongCounter"  Foreground="#19FFFFFF" FontFamily="Consolas">
+                        <Run x:Name="Run_MotEchoue" Text="0/3" Foreground="#14EBFF53"/><Run Text=" | " Foreground="#33000000"/><Run x:Name="Run_MotCorrect" Text="0/7" Foreground="#1900FF0B"/>
+                    </TextBlock>
+                </Viewbox>
+            </Grid>
+
+            <Grid Grid.Row="0" >
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#00000000" Offset="0"/>
+                        <GradientStop x:Name="GameCanvas_color" Color="#66FD0D0D" Offset="0.964"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+
+            <Grid Grid.Row="2">
+                <Grid.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop x:Name="GameCanvas_color2" Color="#66FF0000"/>
+                        <GradientStop Color="#4C000000" Offset="1"/>
+                    </LinearGradientBrush>
+                </Grid.Background>
+            </Grid>
+
+            <Viewbox Grid.Row="0">
                 <Canvas Width="1920" Height="1080" x:Name="Canvas_game">
-                    
                 </Canvas>
             </Viewbox>
+
             <Grid Grid.Row="1">
                 <Grid.Background>
-                    <ImageBrush ImageSource="/warning_zone.png" TileMode="FlipY" 
+                    <RadialGradientBrush>
+                        <GradientStop x:Name="GameCanvas_color3" Color="Red" Offset="0.451"/>
+                        <GradientStop Color="#FFC10B43" Offset="1"/>
+                    </RadialGradientBrush>
+                </Grid.Background>
+                <!--<Grid.Background>
+                    <ImageBrush ImageSource="resources/warning_zone.png" TileMode="FlipY" 
             Stretch="Uniform"
             AlignmentY="Top"
             Viewport="0,0,90,3000"
             ViewportUnits="Absolute" />
-                </Grid.Background>
+                </Grid.Background>-->
 
             </Grid>
             <Grid Grid.Row="2">
-                
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="5*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="0.5*"/>
+                </Grid.RowDefinitions>
+
+
+                <Viewbox Grid.Column="4" Grid.Row="2">
+                    <TextBlock x:Name="TextBlock_scr"  Text="0 scr" Foreground="#FF7D7D7D"/>
+                </Viewbox>
             </Grid>
+
+            <Grid x:Name="Grid_PartieTerminee">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.75*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="0.75*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="0.25*"/>
+                    <RowDefinition Height="1*"/>
+                    <RowDefinition Height="0.05*"/>
+                </Grid.RowDefinitions>
+                <Border Grid.Column="1" Grid.Row="1" BorderThickness="2,2,2,2" CornerRadius="15,15,15,15">
+                    <Border.BorderBrush>
+                        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                            <GradientStop Color="#FF401010"/>
+                            <GradientStop Color="Black" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Border.BorderBrush>
+                    <Border.Background>
+                        <RadialGradientBrush>
+                            <GradientStop Color="#FF69185B" Offset="0.004"/>
+                            <GradientStop Color="#FF6B4C80" Offset="1"/>
+                        </RadialGradientBrush>
+                    </Border.Background>
+                    <Grid x:Name="Grid_PartieTermineeContent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.25*"/>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="1*"/>
+                            <RowDefinition Height="0.5*"/>
+                            <RowDefinition Height="3.5*"/>
+                            <RowDefinition Height="0.8*"/>
+                            <RowDefinition Height="0.6*"/>
+                            <RowDefinition Height="0.25*"/>
+
+                        </Grid.RowDefinitions>
+
+                        <Viewbox Grid.Column="1" Grid.Row="1">
+                            <TextBlock Text="Partie Terminée" FontFamily="Consolas" FontWeight="Bold" >
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FF7D0234"/>
+                                        <GradientStop Color="#FF501F33" Offset="0.75"/>
+                                        <GradientStop Color="#FF7D0234" Offset="0.996"/>
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Viewbox>
+
+                        <Viewbox Grid.Column="1" Grid.Row="2">
+                            <TextBlock x:Name="TextBlock_nouveauRecord" Text="NOUVEAU RECORD!" FontWeight="Bold"  >
+                                <TextBlock.Foreground>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <GradientStop Color="#FFC1C7C2"/>
+                                        <GradientStop Color="#FF618E6C" Offset="1"/>
+                                    </LinearGradientBrush>
+                                </TextBlock.Foreground>
+                            </TextBlock>
+                        </Viewbox>
+
+                        <Grid Grid.Column="1" Grid.Row="3">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="0.6*"/>
+                                <RowDefinition Height="0.35*"/>
+                                <RowDefinition Height="0.15*"/>
+                                <RowDefinition Height="0.35*"/>
+                                <RowDefinition Height="0.15*"/>
+                                <RowDefinition Height="0.35*"/>
+                                <RowDefinition Height="0.15*"/>
+                                <RowDefinition Height="0.35*"/>
+                                <RowDefinition Height="0.1*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="0.2*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Viewbox Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left">
+                                <TextBlock FontWeight="Normal">
+                                    <Run Text="Mots écrits" FontFamily="Consolas" Foreground="#FF4B824B"/>
+                                </TextBlock>
+                            </Viewbox>
+                            <Viewbox Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right">
+                                <TextBlock FontWeight="Normal">
+                                    <Run x:Name="Run_PartieTerminee_MotEcrit" Text="00" FontFamily="Consolas" Foreground="#FF4B824B"/>
+                                </TextBlock>
+                            </Viewbox>
+                            
+                            <Viewbox Grid.Column="0" Grid.Row="3" HorizontalAlignment="Left">
+                                <TextBlock FontWeight="Normal">
+                                    <Run Text="Fautes" FontFamily="Consolas" Foreground="#FF4B824B"/>
+                                </TextBlock>
+                            </Viewbox>
+                            <Viewbox Grid.Column="1" Grid.Row="3" HorizontalAlignment="Right">
+                                <TextBlock FontWeight="Normal">
+                                    <Run x:Name="Run_PartieTerminee_Faute" Text="00" FontFamily="Consolas" Foreground="#FF4B824B"/>
+                                </TextBlock>
+                            </Viewbox>
+                            
+                            <Viewbox Grid.Column="0" Grid.Row="5" HorizontalAlignment="Left">
+                                <TextBlock FontWeight="Normal">
+                                    <Run Text="Temps" FontFamily="Consolas" Foreground="#FF4B824B"/>
+                                </TextBlock>
+                            </Viewbox>
+                            <Viewbox Grid.Column="1" Grid.Row="5" HorizontalAlignment="Right">
+                                <TextBlock FontWeight="Normal">
+                                    <Run x:Name="Run_PartieTerminee_Temps" Text="00:00" FontFamily="Consolas" Foreground="#FF4B824B"/>
+                                </TextBlock>
+                            </Viewbox>
+
+                        </Grid>
+
+
+                        <Viewbox Grid.Column="1" Grid.Row="4" >
+                            <TextBlock FontFamily="Consolas" Foreground="#FF05060A">
+                                    <Run Text="Score :"/>
+                                    <Run Text="0.0" x:Name="Run_PartieTerminee_Score" />
+                            </TextBlock>
+                        </Viewbox>
+                    </Grid>
+                </Border>
+            </Grid>
+
         </Grid>
 
         <Grid  Background="#FF3A3939" Visibility="Hidden" x:Name="Grid_MenuPrincipal">

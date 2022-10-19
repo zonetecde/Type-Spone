@@ -34,5 +34,41 @@ namespace TypeSpone.Properties {
                 this["HaveToPressEnter"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool TaperMotParallele {
+            get {
+                return ((bool)(this["TaperMotParallele"]));
+            }
+            set {
+                this["TaperMotParallele"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int TailleMot {
+            get {
+                return ((int)(this["TailleMot"]));
+            }
+            set {
+                this["TailleMot"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public double BestScore {
+            get {
+                return ((double)(this["BestScore"]));
+            }
+            set {
+                this["BestScore"] = value;
+            }
+        }
     }
 }
