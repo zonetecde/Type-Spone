@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:gif="https://github.com/XamlAnimatedGif/XamlAnimatedGif"
         mc:Ignorable="d" d:Width="800" d:Height="450"
-        Title="Type Spone" MinHeight="450" MinWidth="800" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" WindowState="Maximized" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp">
+        Title="Type Spone" MinHeight="450" MinWidth="800" ContentRendered="Window_ContentRendered" WindowStartupLocation="CenterScreen" WindowState="Maximized" KeyDown="Window_KeyDown" KeyUp="Window_KeyUp" Icon="/_icon_.ico">
     <Grid>
         <Grid Visibility="Hidden" Background="#FF3A3939" x:Name="Grid_Options">
             <Grid.ColumnDefinitions>

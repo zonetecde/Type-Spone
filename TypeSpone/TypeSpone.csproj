@@ -5,6 +5,7 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWPF>true</UseWPF>
+    <ApplicationIcon>typespone_icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -27,6 +28,11 @@
     <None Remove="resources\wrong.wav" />
     <None Remove="resources\wrong2.wav" />
     <None Remove="warning_zone.png" />
+    <None Remove="_icon_.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="typespone_icon.ico" />
   </ItemGroup>
 
   <ItemGroup>
@@ -64,6 +70,7 @@
     <Resource Include="resources\gif_parallele.gif" />
     <Resource Include="resources\interrogative.png" />
     <Resource Include="resources\warning_zone.png" />
+    <Resource Include="_icon_.ico" />
   </ItemGroup>
 
   <ItemGroup>
