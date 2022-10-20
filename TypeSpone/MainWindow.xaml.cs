@@ -49,6 +49,7 @@ namespace TypeSpone
         private int NbMotEchoué { get; set; } = 0;
         private int MotRéussi { get; set; } = 0;
         private int NbMotCorrect { get; set; } = 0;
+        private int NbCharacterEcris { get; set; } = 0;
         internal static int NbFautesFrappe { get; set; } = 0;
         private double Score { get; set; } = 0;
 
@@ -171,15 +172,22 @@ namespace TypeSpone
             NbMotEchoué = 0;
             MotRéussi = 0;
             Score = 0;
+            NbCharacterEcris = 0;
             WordsToDestroy.Clear();
             Canvas_game.Children.Clear();
             OneWordHasBeenCompleted = false;
             ActionUCtoDeleteProgress.Clear();
             textBlock_GameTimer.Text = "00:00";
             TextBlock_scr.Text = "0 scr";
+            Run_MotCorrect.Text = "0/7";
+            Run_MotEchoue.Text = "0/3";
 
             Grid_MenuPrincipal.Visibility = Visibility.Hidden;
             Grid_Game.Visibility = Visibility.Visible;
+            GameTimer_WordFall = new Timer();
+            GameTimer_WordAdder = new Timer();
+            GameTimer_WordDestroy = new Timer();
+            GameTimer_Duration = new Timer();
 
             UC_WordsToType = new List<UserControl_WriteBox>();
 
@@ -187,7 +195,7 @@ namespace TypeSpone
             AddRandomWordToType();
 
             // Un mot toutes les 3-6 secondes
-            int minInterval = 3000;
+            int minInterval = Difficulte == Difficulte.MOYEN ? 3000 : Difficulte == Difficulte.FACILE ? 4000 : 2000;
             int maxInterval = 5000;
             GameTimer_WordAdder.Interval = Rdn.Next(minInterval, maxInterval);
 
@@ -197,6 +205,7 @@ namespace TypeSpone
                 {
                     minInterval -= 50;
                     maxInterval -= 10;
+
                     if (minInterval <= 1500)
                     {
                         minInterval = 1500;
@@ -297,7 +306,7 @@ namespace TypeSpone
                     GameDuration = GameDuration.AddSeconds(1);
                     textBlock_GameTimer.Text = GameDuration.ToString("mm:ss");
 
-                    Score = Math.Round(((double)NbMotCorrect / ((double)GameDuration.Minute * (double)60 + (double)GameDuration.Second)) * (double)100, 1);
+                    Score = Math.Round(((double)NbCharacterEcris / ((double)GameDuration.Minute * (double)60 + (double)GameDuration.Second)) * (double)100, 1);
                     TextBlock_scr.Text = Score.ToString().Replace(',', '.').PadLeft(5, ' ') + " scr";
                 });
                 
@@ -324,7 +333,7 @@ namespace TypeSpone
             await BackgroundColorAnimation(COLOR_GAME_OVER, true);
 
             // animation resultat
-            Timer anim_resultat = new Timer(100);
+            Timer anim_resultat = new Timer(50);
             double temp_score = 0.0;
             DateTime temps_temp = new DateTime();
             temps_temp = temps_temp.AddSeconds(1);
@@ -354,7 +363,7 @@ namespace TypeSpone
                     }
                     if (temp_score < Score)
                     {
-                        temp_score += 0.4;
+                        temp_score += 9;
                         temp_score = Math.Round(temp_score, 1);
                         Run_PartieTerminee_Score.Text = temp_score.ToString();
                         oneChanged = true;
@@ -410,6 +419,8 @@ namespace TypeSpone
             }
         }
 
+        private int SwitchCanvasPart = 0; // 0 = 1/3, 1 = 2/3, 2 = 3/3 pour pas que les uc se chevauche
+
         /// <summary>
         /// Ajoute un mot au gameBoard
         /// </summary>
@@ -423,8 +434,25 @@ namespace TypeSpone
 
             Canvas_game.Children.Add(uc);
 
-            Canvas.SetLeft(uc, Rdn.Next(TAILLE_MOT, Convert.ToInt32(Canvas_game.Width) - TAILLE_MOT * rdnWord.Length)); // - TAILLE_MOT * .Length pour pas qu'un mot sorte du champ de vision
-            Canvas.SetTop(uc, - TAILLE_MOT); // caché (va apparaître en descendant)
+            int minB = 0;
+            int maxB = Convert.ToInt16(Canvas_game.Width) / 3;
+            if (SwitchCanvasPart > 0)
+            {
+                minB = SwitchCanvasPart == 1 ? Convert.ToInt16(Canvas_game.Width) / 3 : Convert.ToInt16((Canvas_game.Width / 3) * 2);
+                maxB = SwitchCanvasPart == 1 ? Convert.ToInt16((Canvas_game.Width / 3) * 2) : Convert.ToInt16(Canvas_game.Width) - (TAILLE_MOT * rdnWord.Length);
+                minB += TAILLE_MOT;
+            }
+
+            SwitchCanvasPart++;
+
+            if (SwitchCanvasPart == 3)
+                SwitchCanvasPart = 0;
+
+            if (TAILLE_MOT + minB > maxB)
+                minB = TAILLE_MOT;
+
+            Canvas.SetLeft(uc, Rdn.Next(TAILLE_MOT + minB, maxB)); // - TAILLE_MOT * .Length pour pas qu'un mot sorte du champ de vision
+            Canvas.SetTop(uc, - TAILLE_MOT * Rdn.Next(1,4)); // caché (va apparaître en descendant)
 
             if (rdnWord.Length <= 3)
                 uc.Tag = 8;
@@ -440,7 +468,7 @@ namespace TypeSpone
                 uc.Tag = 1;
 
             // si il y a des accents on ajoute du temps
-            if (rdnWord.Contains("é") || rdnWord.Contains("ê") || rdnWord.Contains("ç") || rdnWord.Contains("â") || rdnWord.Contains("î") || rdnWord.Contains("è") || rdnWord.Contains("-") && Difficulte_Accent)
+            if (rdnWord.Contains("é") || rdnWord.Contains("ê") || rdnWord.Contains("ô") || rdnWord.Contains("ç") || rdnWord.Contains("â") || rdnWord.Contains("î") || rdnWord.Contains("è") || rdnWord.Contains("-") && Difficulte_Accent)
                 uc.Tag = Convert.ToInt16(uc.Tag) - 3;
 
             // si il y a déjà 1 uc on baisse le temps aussi
@@ -465,10 +493,18 @@ namespace TypeSpone
         {
             PlayAudio(fromUri: "TypeSpone.resources.correct.wav");
             WordsToDestroy.Add(obj);
+            NbCharacterEcris += obj.WordToWrite.Length;
 
             // 1/4 d'avoir un mot qui spawn en plus
-            if(Rdn.Next(0,100) > 75 || Canvas_game.Children.Count == 0)
-                AddRandomWordToType(true);
+            int bMax = Difficulte == Difficulte.MOYEN ? 20 : Difficulte == Difficulte.FACILE ? 100 : 20;
+
+            if (Canvas_game.Children.Count == 3 && Difficulte == Difficulte.MOYEN)
+                bMax = 50;
+            else if (Canvas_game.Children.Count == 5 && Difficulte == Difficulte.MOYEN)
+                bMax = 80;
+
+            if (Rdn.Next(0,100) > bMax || Canvas_game.Children.Count == 1 && Canvas_game.Children.Count < 4) // 1 car c'est lui (obj), < 6 car sinon ça fait trop de mot à écrire
+                AddRandomWordToType(false);
 
             // animation couleur verte
             await BackgroundColorAnimation(COLOR_ANIMATION_CORRECT);
@@ -569,6 +605,8 @@ namespace TypeSpone
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            if(e.Key == Key.Escape)
+                GC.Collect();
 
             if (e.Key != Key.Oem6 && e.Key != Key.LWin && e.Key != Key.LeftShift && e.Key != Key.RightShift && e.Key != Key.Capital && e.Key != Key.F11) // Oem6 est la key permettant de faire l'accent circonflexe
             {
@@ -730,16 +768,18 @@ namespace TypeSpone
             Stream str = String.IsNullOrEmpty(fromUri) ? getStreamFromKey(e, state) : System.Reflection.Assembly.GetEntryAssembly().GetManifestResourceStream(fromUri)!;
 
             WaveFileReader wfr = new WaveFileReader(str);
-            WaveChannel32 wc = new WaveChannel32(wfr);
+            Wave16ToFloatProvider wc = new Wave16ToFloatProvider(wfr);
             DirectSoundOut wfo = new DirectSoundOut();
+            if(fromUri.Contains("pop"))
+                wc.Volume = 0.2f;
             wfo.Init(wc);
             wfo.Play();
-
             wfo.PlaybackStopped += (sender, e) =>
             {
                 wfr.Dispose();
-                wc.Dispose();
                 wfo.Dispose();
+                str.Dispose();
+
             };
 
         }
